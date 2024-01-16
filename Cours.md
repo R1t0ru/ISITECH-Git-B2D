@@ -355,4 +355,104 @@ git show v1.4
 
 ![alt text](Screenshot/image-4.png)
 
+
+#### Les branches
+
+Lorsque vous faîtes un commit, Git enregistre un objet de commit qui contient un pointeur vers l'arbre de contenu qui représente l'état de votre projet à ce moment-là.Ce pointeur de commit contient le nom SHA-1 du commit parent ou des commits parents qui ont précédé ce commit (plusieurs parents si fusion). Git peut remonter l'histoire du projet avec les commits.
+
+Pour créer une nouvelle branche :
+
+```sh
+git branch <nom-branche>
+```
+
+Git branch crée une nouvelle branche par défaut mais ne fait pas aller sur celle-ci.
+
+Pour basculer sur une branche :
+
+```sh
+git checkout <nom-branche>
+```
+
+Pour créer une branche et basuler dessus :
+
+```sh
+git checkout -b <nom-branche>
+```
+
+##### Fusionner des brances
+
+On va commencer à travailler sur l'issue 53 et effectuer un premier commit :
+
+```sh
+git commit -m "commit 3"
+```
+On va ensuite rebasculer sur la branche master afin d'effectuer un hotfix :
+
+```sh
+git checkout master
+```
+
+/!\ Ne jamais travailler sur la branche de prod directement /!\
+
+```sh
+git branch hotfix
+git commit -m "commit 4"
+```
+
+Nous sommes satisfait du hotfix et nous alllons le valider
+
+```sh
+git checkout master
+git merge hotfix
+```
+
+La branche hotfix n'a plus lieu d'être et nous allons la supprimer :
+
+```sh
+git branch -d hotfix
+```
+
+On va maintenant retourner sur iss53 et continuer à travailler dessus :
+
+```sh
+git checkout iss53
+```
+
+On effectue un nouveau commit afin de valider notre travail :
+
+```sh
+git commit -m "commit 5"
+```
+
+
+On va maintenant retourner sur master & effectuer un merge avec iss53
+
+```sh
+git checkout master
+git merge iss53
+```
+
+La stratégie de merge est alors différente de celle utilisée précedemment : Merge commit
+
+Au lieu d'avancer la branche master, Git crée un nouveau col
+
+On peut supprimer la branche iss53 :
+
+git branch -d iss53
+
+#### Résoudre des conflits
+
+Un conflit à lieu lorsque deux branche différentes ont modifiées la même partie du même fichier ou si un a été supprimé dans une branche alors qu'il a été modifié dans une autre.
+
+Physiquement, un conflit est représenté par des caractères spéciaux qui apparaissent dans le fichier.
+
+Après résolution du conflit il suffit de commit.
+
+Vous avez un outil qui permet de résoudre les conflits avec git :
+
+```sh
+
+```
+
 Faire attention aux dons d'accès aux personnes avec qui on travaille
