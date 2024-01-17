@@ -452,7 +452,158 @@ Après résolution du conflit il suffit de commit.
 Vous avez un outil qui permet de résoudre les conflits avec git :
 
 ```sh
-
+git mergetool
 ```
 
-Faire attention aux dons d'accès aux personnes avec qui on travaille
+Pour afficher toutes les branches :
+
+```sh
+git branch -a
+git branch --all
+```
+
+Commande `git fetch <distant>` : Elle permet de synchroniser vos travaux, elle va rechercher le serveur qui héberge `<distant>` et va récupérer les modifications qui ont été effectuées sur le serveur distant.
+
+#### Pousser des modifications
+
+```sh
+git push <distant> <branche>
+
+git push origin master
+
+git push -u origin master
+```
+
+Pour récupérer les modifications effectuées sur le serveur distant a propos de nouvelles branches ou de branches existantes :
+
+```sh
+git fetch <distant>
+```
+
+Pour récupérer des modifications & les fusionner avec vos branches locales :
+
+```sh
+git pull <distant> <branche>
+```
+
+La règle d'or lorsqu'on débute avec Git :
+
+`commit` -> `pull` -> `push`
+
+Lorsque vous récupérez des branches distantes avec `fetch`, vous ne créez pas automatiquement une branche locale qui suit la branche distante. Vous devez créer une branche locale & la lier à la branche distante.
+
+```sh
+git checkout -b <nom-de-branche> <distant>/<nom-de-branche>
+
+Branch <nom-de-branche> set up to track remote branch <nom-de-branche> from <distant>.
+```
+
+On a un raccourci pour cette commande :
+
+```sh
+git checkout --track <distant>/<nom-de-branche>
+```
+
+Si branche locale n'existe pas encore :
+
+```sh
+git checkout <nom-de-branche>
+```
+
+Afin de visualiser tout ça on peut utiliser la commande suivante :
+
+```sh
+git branch -vv
+```
+
+Afin de visualiser tout ça on peut utiliser la commande suivante :
+
+```sh
+git fetch --all
+
+git branch -vv
+```
+
+Analysons cette commande suivante :
+
+```sh
+git push origin -delete <nom-de-branche>
+```
+
+#### Rebase le travail
+
+Avec Git il y a deux manières d'intégrer les modifications d'une branche dans une autre :
+
+- La fusion (merge)
+- Le rebasage (rebase)
+
+Après un merge on obtient cela :
+
+```sh
+git checkout master
+
+git merge experiment
+```
+
+Avec le rebase on aurait entré les commandes suivantes :
+
+```sh
+git checkout experiment
+
+git rebase master
+```
+
+Voici ce qu'il se passe :
+
+Image-20
+
+Puis le résultat final :
+
+Image-22
+
+Rebase est comme un merge mais supprime une partie de l'historique git, historique divergeant en historique synchronisé.
+
+Rebase linéarise les commites.
+
+
+La commande qui correspond au rebase cité en cours :
+
+```sh
+git rebase --onto master server client
+```
+
+Essaye d'extraire la branche client de la branche server et de la rebaser sur la branche master.
+
+img 24
+
+```sh
+git checkout master
+git merge client
+```
+
+img 25
+
+On peut aussi rebaser la branche server sur la branche master :
+
+```sh
+git rebase master server
+```
+
+img 26
+
+Vous pouvez ensuite merge server dans master :
+
+```sh
+git checkout master
+git merge server
+```
+
+#### Rebase or not Rebase
+
+La seule règle à respecter avec la commabde Rebase: ne jamais rebase des modifications qui ont été publiées sur un serveur distant (push)
+
+Conventionalcommits.org
+Commitizen dans le projet
+GitHub Pages
+
+Faire attention aux dons d'accès aux personnes avec qui on travaille 

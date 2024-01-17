@@ -37,3 +37,9 @@ git checkout develop
 
 git pull upstream develop
 ```
+
+Utilisation de commitizen et de la convention de commit :
+
+```sh
+git cz
+```
